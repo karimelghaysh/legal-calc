@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3a0ca3">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<title>حاسبة كريم للمدد القانونية</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef1f8;--card:#fff;--text:#2b2d42;--muted:#6c757d;--line:#e3e7ef;--primary:#4361ee;--secondary:#3a0ca3;--ok:#0a8f6a;--okbg:#e6f7f1;--bad:#d90429;--badbg:#fdebef;--warn:#b7791f;--warnbg:#fff6e0;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12141c;--card:#1c1f2b;--text:#e8eaf2;--muted:#9aa0b4;--line:#2d3144;--primary:#7b93ff;--secondary:#5b3fd1;--ok:#43d6a5;--okbg:#12302a;--bad:#ff6b88;--badbg:#3a1822;--warn:#f0c060;--warnbg:#3a2f14}}
+:root[data-theme="dark"]{--bg:#12141c;--card:#1c1f2b;--text:#e8eaf2;--muted:#9aa0b4;--line:#2d3144;--primary:#7b93ff;--secondary:#5b3fd1;--ok:#43d6a5;--okbg:#12302a;--bad:#ff6b88;--badbg:#3a1822;--warn:#f0c060;--warnbg:#3a2f14}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Tajawal',Arial,sans-serif}
+body{background:var(--bg);color:var(--text);min-height:100vh;padding:16px;display:flex;justify-content:center}
+.app{width:100%;max-width:520px}
+.head{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border-radius:18px 18px 0 0;padding:20px;text-align:center;position:relative}
+.head h1{font-size:1.5rem}.head p{opacity:.9;font-size:.85rem;margin-top:4px}
+.theme{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.2);border:0;color:#fff;width:36px;height:36px;border-radius:50%;font-size:1.1rem;cursor:pointer;margin:0}
+.card{background:var(--card);border-radius:0 0 18px 18px;padding:20px;box-shadow:0 8px 28px rgba(0,0,0,.1)}
+.tabs{display:flex;gap:6px;background:var(--bg);padding:4px;border-radius:12px;margin-bottom:18px}
+.tab{flex:1;padding:10px;border:0;border-radius:9px;background:transparent;color:var(--muted);font-weight:700;cursor:pointer;font-size:.95rem}
+.tab.on{background:var(--card);color:var(--primary);box-shadow:0 1px 6px rgba(0,0,0,.12)}
+label{display:block;font-weight:700;font-size:.9rem;margin-bottom:6px}
+.g{margin-bottom:14px}
+input,select{width:100%;padding:12px;border:2px solid var(--line);border-radius:10px;font-size:1rem;background:var(--card);color:var(--text);text-align:right}
+input[type=date]{direction:ltr;text-align:center}
+input:focus,select:focus{outline:0;border-color:var(--primary)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{border:1px solid var(--line);background:var(--bg);color:var(--text);padding:6px 10px;border-radius:20px;font-size:.8rem;cursor:pointer;margin:0;width:auto}
+.chip:hover{border-color:var(--primary);color:var(--primary)}
+.opt{display:flex;align-items:center;gap:8px;font-size:.88rem;margin-bottom:14px;font-weight:500}
+.opt input{width:auto;accent-color:var(--primary)}
+.btn{width:100%;border:0;border-radius:10px;padding:14px;font-size:1rem;font-weight:700;cursor:pointer;color:#fff;background:linear-gradient(135deg,var(--primary),var(--secondary));margin-top:4px}
+.btn.sec{background:var(--bg);color:var(--text);border:1px solid var(--line);padding:10px;font-size:.88rem;font-weight:500}
+.row{display:flex;gap:8px;margin-top:10px}
+.res{display:none;margin-top:20px;border-radius:14px;padding:18px;text-align:center;animation:in .4s ease}
+.res.ok{background:var(--okbg);color:var(--ok)}.res.bad{background:var(--badbg);color:var(--bad)}.res.warn{background:var(--warnbg);color:var(--warn)}
+.res .ic{font-size:2.2rem}.res h3{font-size:1.15rem;margin:4px 0}
+.big{font-size:1.9rem;font-weight:700;margin:6px 0}
+.det{font-size:.9rem;line-height:1.9;color:var(--text);margin-top:8px}
+.note{margin-top:10px;padding:8px 10px;border-radius:8px;background:var(--warnbg);color:var(--warn);font-size:.82rem}
+.brk{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);font-size:.86rem;color:var(--text)}
+.bar{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin-top:10px}
+.bar i{display:block;height:100%;background:currentColor;border-radius:6px}
+.yr{margin-top:6px;line-height:1.7}.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.st{background:var(--card);color:var(--text);border-radius:10px;padding:10px}.st small{display:block;color:var(--muted);font-size:.78rem;margin-bottom:2px}.st b{font-size:1rem}
+.hi{font-size:.82rem;padding:8px 10px;border:1px solid var(--line);border-radius:8px;margin-bottom:6px;display:flex;justify-content:space-between;gap:8px}
+.hi small{color:var(--muted)}
+.foot{margin-top:16px;font-size:.75rem;color:var(--muted);text-align:center;line-height:1.7}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="app">
+ <div class="head">
+  <button class="theme" id="theme" aria-label="تبديل الوضع">🌓</button>
+  <h1>⚖️ حاسبة كريم للمدد القانونية</h1>
+  <p>أداة كريم الغايش لحساب مواعيد الإجراءات القانونية</p>
+ </div>
+ <div class="card">
+  <div class="tabs">
+   <button class="tab on" id="t1" onclick="mode(1)">الفارق الزمني</button>
+   <button class="tab" id="t2" onclick="mode(2)">تاريخ الانتهاء</button>
+  </div>
+
+  <div id="m1">
+   <div class="g"><label>تاريخ الإجراء الأول</label><input type="date" id="d1"></div>
+   <div class="g"><label>تاريخ الإجراء الثاني</label><input type="date" id="d2"></div>
+  </div>
+  <div id="m2" style="display:none">
+   <div class="g"><label>تاريخ البدء (إعلان / صدور الحكم)</label><input type="date" id="ds"></div>
+  </div>
+
+  <div class="g">
+   <label>المدة القانونية (بالأيام)</label>
+   <input type="number" id="lim" value="40" min="1" inputmode="numeric">
+  </div>
+
+  <button class="btn" onclick="calc()">احسب</button>
+
+  <div class="res" id="res">
+   <div class="ic" id="ic"></div><h3 id="tt"></h3>
+   <div class="big" id="big"></div>
+   <div class="stats" id="stats" style="display:none"></div>
+   <div class="bar" id="barw" style="display:none"><i id="bar"></i></div>
+   <div class="det" id="det"></div>
+   <div class="note" id="note" style="display:none"></div>
+   <div class="brk" id="brk" style="display:none"></div>
+   <div class="row">
+    <button class="btn sec" id="calb" style="display:none" onclick="gcal()">📅 تقويم</button>
+   </div>
+  </div>
+
+ </div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id), DAY=864e5;
+let cur=1, endISO='';
+
+const P=s=>{const a=s.split('-').map(Number);return Date.UTC(a[0],a[1]-1,a[2])};
+const ISO=ms=>new Date(ms).toISOString().slice(0,10);
+const F=(ms,o)=>new Date(ms).toLocaleDateString('ar-EG',Object.assign({timeZone:'UTC'},o||{weekday:'long',year:'numeric',month:'long',day:'numeric'}));
+const H=ms=>{try{return new Date(ms).toLocaleDateString('ar-SA-u-ca-islamic-umalqura',{timeZone:'UTC',year:'numeric',month:'long',day:'numeric'})}catch(e){return ''}};
+const N=n=>n.toLocaleString('ar-EG');
+const D=n=>n===1?'يوم واحد':n===2?'يومان':(n>=3&&n<=10)?N(n)+' أيام':N(n)+' يومًا';
+
+function mode(m){cur=m;$('m1').style.display=m==1?'block':'none';$('m2').style.display=m==2?'block':'none';
+ $('t1').classList.toggle('on',m==1);$('t2').classList.toggle('on',m==2);$('res').style.display='none'}
+
+function show(cls,ic,title,big,det,opts){
+ const r=$('res');opts=opts||{};r.className='res '+cls;r.style.display='block';
+ $('ic').textContent=ic;$('tt').textContent=title;$('big').textContent=big;$('det').innerHTML=det;
+ const st=$('stats');st.style.display=opts.stats?'grid':'none';st.innerHTML=opts.stats||'';
+ const n=$('note');n.style.display=opts.note?'block':'none';n.textContent=opts.note||'';
+ const b=$('brk');b.style.display=opts.brk?'block':'none';b.innerHTML=opts.brk||'';
+ $('barw').style.display=opts.pct!=null?'block':'none';if(opts.pct!=null)$('bar').style.width=Math.min(100,opts.pct)+'%';
+ $('calb').style.display=opts.cal?'block':'none';
+ r.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+const err=m=>{endISO='';show('bad','⚠️','خطأ في الإدخال','',m)};
+
+function calc(){
+ const lim=parseInt($('lim').value,10);
+ if(isNaN(lim)||lim<=0)return err('المدة القانونية يجب أن تكون رقمًا موجبًا.');
+ cur==1?diff(lim):endDate(lim);
+}
+
+function diff(lim){
+ if(!$('d1').value||!$('d2').value)return err('الرجاء إدخال كلا التاريخين.');
+ const a=P($('d1').value),b=P($('d2').value),n=Math.round((b-a)/DAY);
+ const base=`<b>الإجراء الأول:</b> ${F(a)}<br><b>الإجراء الثاني:</b> ${F(b)}<br>`;
+ if(n<0){show('bad','⚠️','التاريخ غير صحيح',D(-n),base+'<br>تاريخ الإجراء الثاني <b>يسبق</b> الأول!');return}
+ const brk=breakdown(a,b,n);
+ if(n<=lim){
+  const left=lim-n;
+  show('ok','✅','الإجراء ضمن المدة القانونية','',base+`<br><b>المدة القانونية:</b> ${D(lim)}<br><b>المتبقي:</b> ${left===0?'آخر يوم':D(left)}`,{pct:n/lim*100,brk,stats:stats(a,b,n)});
+ }else{
+  show('bad','❌','تجاوز المدة القانونية','',base+`<br><b>المدة القانونية:</b> ${D(lim)}<br><b>التجاوز:</b> ${D(n-lim)}`,{pct:100,brk,stats:stats(a,b,n)});
+ }
+}
+
+function endDate(lim){
+ if(!$('ds').value)return err('الرجاء إدخال تاريخ البدء.');
+ const s=P($('ds').value);const e=s+lim*DAY;
+ const note=new Date(e).getUTCDay()===5?'تنبيه: تاريخ الانتهاء يصادف يوم جمعة.':'';
+ endISO=ISO(e);
+ show('ok','📅','تاريخ الانتهاء القانوني',F(e),
+  `<b>تاريخ البدء:</b> ${F(s)}<br><b>المدة:</b> ${D(lim)}`,{note,cal:true,brk:breakdown(s,e,lim),stats:stats(s,e,lim)});
+}
+
+
+function addM(ms,k){const d=new Date(ms),y=d.getUTCFullYear(),m=d.getUTCMonth()+k,dm=new Date(Date.UTC(y,m+1,0)).getUTCDate();return Date.UTC(y,m,Math.min(d.getUTCDate(),dm))}
+function stats(a,b,n){
+ const A=new Date(a),B=new Date(b);
+ let tm=(B.getUTCFullYear()-A.getUTCFullYear())*12+B.getUTCMonth()-A.getUTCMonth();
+ if(B.getUTCDate()<A.getUTCDate())tm--;
+ const rd=Math.round((b-addM(a,tm))/DAY),w=Math.floor(n/7),wd=n%7,y=Math.floor(tm/12),ym=tm%12;
+ const mk=ps=>ps.filter(Boolean).join(' و')||D(0);
+ const cell=(t,v)=>`<div class="st"><small>${t}</small><b>${v}</b></div>`;
+ return cell('الفارق بالأيام',D(n))
+  +cell('الفارق بالأسابيع',mk([w&&N(w)+' أسبوع',wd&&D(wd)]))
+  +cell('الفارق بالأشهر',mk([tm&&N(tm)+' شهر',rd&&D(rd)]))
+  +cell('الفارق بالسنوات',mk([y&&N(y)+' سنة',ym&&N(ym)+' شهر',rd&&D(rd)]));
+}
+const ORD=['الأولى','الثانية','الثالثة','الرابعة','الخامسة','السادسة','السابعة','الثامنة','التاسعة','العاشرة'];
+function yearsBreakdown(a,b){
+ const A=new Date(a),B=new Date(b);
+ let tm=(B.getUTCFullYear()-A.getUTCFullYear())*12+B.getUTCMonth()-A.getUTCMonth();
+ if(B.getUTCDate()<A.getUTCDate())tm--;
+ const y=Math.floor(tm/12);if(y<1)return '';
+ const fd=ms=>F(ms,{year:'numeric',month:'long',day:'numeric'});
+ let rows=[];
+ for(let i=1;i<=y;i++){
+  rows.push(`<div class="yr"><b>السنة ${ORD[i-1]||N(i)}:</b> من ${fd(addM(a,12*(i-1))+DAY)} إلى ${fd(addM(a,12*i))}</div>`);
+ }
+ const last=addM(a,12*y);
+ if(b>last){
+  const rm=tm%12,rd=Math.round((b-addM(a,tm))/DAY);
+  const len=[rm&&N(rm)+' شهر',rd&&D(rd)].filter(Boolean).join(' و');
+  rows.push(`<div class="yr"><b>المدة المتبقية${len?' ('+len+')':''}:</b> من ${fd(last+DAY)} إلى ${fd(b)}</div>`);
+ }
+ return `<div style="margin-top:10px"><b>تفصيل السنوات:</b>${rows.join('')}</div>`;
+}
+function breakdown(a,b,n){
+ if(n<=0)return '';
+ let c=a+DAY;const end=b+DAY,parts=[];
+ while(c<end){const d=new Date(c),nx=Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+1,1),se=Math.min(nx,end),days=Math.round((se-c)/DAY);
+  if(days>0)parts.push(`${D(days)} في ${F(c,{month:'long'})}`);c=se}
+ return `<b>تفسير الفارق:</b> ${parts.join(' - ')} : لنكون في اليوم ${N(n)}`+yearsBreakdown(a,b);
+}
+
+function gcal(){
+ if(!endISO)return;
+ const d=endISO.replace(/-/g,''),nx=ISO(P(endISO)+DAY).replace(/-/g,'');
+ window.open('https://www.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent('انتهاء مدة قانونية')+'&dates='+d+'/'+nx+'&details='+encodeURIComponent('موعد قانوني مهم.'),'_blank');
+}
+
+/* الوضع */
+$('theme').onclick=()=>{const r=document.documentElement,d=r.dataset.theme==='dark'||(!r.dataset.theme&&matchMedia('(prefers-color-scheme:dark)').matches);
+ r.dataset.theme=d?'light':'dark';try{localStorage.setItem('kt',r.dataset.theme)}catch(e){}};
+try{const t=localStorage.getItem('kt');if(t)document.documentElement.dataset.theme=t}catch(e){}
+if('serviceWorker' in navigator&&location.protocol.startsWith('http')){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+</script>
+</body>
+</html>
