@@ -1,0 +1,8 @@
+{
+  "appId": "com.karim.legalcalc",
+  "appName": "المدد القانونية",
+  "webDir": "www",
+  "android": {
+    "backgroundColor": "#3a0ca3"
+  }
+}
